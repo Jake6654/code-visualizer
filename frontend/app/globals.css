@@ -120,3 +120,66 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* --- Glass Button styles --- */
+@layer components {
+  .glass-button-wrap {
+    @apply relative inline-block;
+  }
+
+  .glass-button {
+    @apply rounded-full border border-black/10 dark:border-white/10
+           bg-white/60 dark:bg-white/10 backdrop-blur-lg
+           transition shadow-sm hover:shadow-md active:translate-y-px;
+    position: relative;
+    isolation: isolate;
+  }
+
+  .glass-button::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.65),
+      rgba(255, 255, 255, 0.18)
+    );
+    pointer-events: none;
+    z-index: -1;
+  }
+  .dark .glass-button::before {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.05)
+    );
+  }
+
+  .glass-button-shadow {
+    position: absolute;
+    inset: 0;
+    filter: blur(10px);
+    background: radial-gradient(
+      40% 50% at 50% 50%,
+      rgba(0, 0, 0, 0.1),
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+  .glass-button-wrap:hover .glass-button-shadow {
+    opacity: 0.8;
+  }
+
+  .glass-button:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+}
+
+/* --- Optional dotted bg utility --- */
+.bg-dots {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
